@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/bottom_navbar.dart';
+import 'package:valorizze/bottom_navbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Markets extends StatefulWidget {

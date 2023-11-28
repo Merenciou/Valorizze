@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/buy_list.dart';
-import 'package:flutter_application_1/item_preview.dart';
-import 'package:flutter_application_1/markets.dart';
-import 'package:flutter_application_1/offers.dart';
-import 'package:flutter_application_1/login.dart';
-import 'package:flutter_application_1/services_app.dart';
-import 'package:flutter_application_1/setup_profile.dart';
-import 'package:flutter_application_1/sign.dart';
-import 'package:flutter_application_1/sign_products.dart';
-import 'package:flutter_application_1/update_prices.dart';
+import 'package:valorizze/buy_list.dart';
+import 'package:valorizze/item_preview.dart';
+import 'package:valorizze/markets.dart';
+import 'package:valorizze/offers.dart';
+import 'package:valorizze/login.dart';
+import 'package:valorizze/services_app.dart';
+import 'package:valorizze/setup_profile.dart';
+import 'package:valorizze/sign.dart';
+import 'package:valorizze/sign_products.dart';
+import 'package:valorizze/update_prices.dart';
 
 void main() {
   runApp(const MainApp());
