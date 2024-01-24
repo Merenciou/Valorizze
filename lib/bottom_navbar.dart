@@ -18,12 +18,16 @@ class _BottomNavbarCustom extends State<BottomNavbarCustom> {
       switch (_currentIndexBottomBar) {
         case 0:
           _currentIndexBottomBar = 0;
+          break;
         case 1:
           _currentIndexBottomBar = 1;
+          break;
         case 2:
           _currentIndexBottomBar = 2;
+          break;
         case 3:
           _currentIndexBottomBar = 3;
+          break;
         case 4:
           _currentIndexBottomBar = 4;
           break;

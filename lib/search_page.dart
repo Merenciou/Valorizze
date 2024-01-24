@@ -1,67 +1,101 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
-
+class CustomSearchDelegate extends SearchDelegate {
   @override
-  State<SearchPage> createState() => _SearchPage();
-}
-
-class _SearchPage extends State<SearchPage> {
-  @override
-  Widget build(BuildContext context) {
-    return SearchAnchor(
-        viewElevation: 0,
-        viewSurfaceTintColor: Colors.white,
-        viewBackgroundColor: Colors.white,
-        dividerColor: const Color(0xff9ADE7B),
-        builder: (BuildContext context, SearchController controller) {
-          return SearchBar(
-            hintText: 'O que procuras?',
-            hintStyle: MaterialStateProperty.all(
-                GoogleFonts.montserrat(color: Colors.grey)),
-            overlayColor: MaterialStateProperty.all(Colors.white),
-            surfaceTintColor: MaterialStateProperty.all(Colors.white),
-            shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)))),
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.pressed)) {
-                return const Color(0xff9ADE7B);
-              }
-              return Colors.white;
-            }),
-            controller: controller,
-            padding: const MaterialStatePropertyAll<EdgeInsets>(
-                EdgeInsets.symmetric(horizontal: 16.0)),
-            onTap: () {
-              controller.openView();
-            },
-            onChanged: (_) {
-              controller.openView();
-            },
-            leading: const Icon(
-              Icons.search,
-              color: Color(0xff9ADE7B),
-            ),
-          );
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
         },
-        suggestionsBuilder:
-            (BuildContext context, SearchController controller) {
-          return List<ListTile>.generate(10, (int index) {
-            final String item = 'Coxão Mole Kg $index';
-            return ListTile(
-              tileColor: Colors.white,
-              hoverColor: const Color(0xff9ADE7B),
-              title: Text(item),
-              onTap: () {
-                setState(() {
-                  controller.closeView(item);
-                });
-              },
-            );
-          });
+        icon: const Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          close(context, null);
+        },
+        icon: const Icon(Icons.arrow_back));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('products')
+            .where('product_name', isEqualTo: query)
+            .snapshots(),
+        builder: (context, snapshot) {
+          List<Column> productWidgets = [];
+
+          if (snapshot.hasData) {
+            final products = snapshot.data?.docs.toList();
+            for (var product in products!) {
+              final productWidget = Column(
+                children: [
+                  Text(
+                    product['product_name'],
+                    style: GoogleFonts.montserrat(fontSize: 20),
+                  )
+                ],
+              );
+              productWidgets.add(productWidget);
+            }
+          }
+          return Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Container(
+                    color: Colors.grey,
+                    child: ListView.separated(
+                      itemCount: productWidgets.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: productWidgets,
+                        );
+                      },
+                      separatorBuilder: (context, index) => const Divider(),
+                      // children: productWidgets,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
         });
+
+    // return FutureBuilder(
+    //   future: produto,
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData) {
+    //       return ListView.builder(
+    //         itemCount: snapshot.data?.docs.length,
+    //         itemBuilder: (context, index) {
+    //           final productDoc = snapshot.data?.docs[index];
+    //           final product = productDoc.data();
+
+    //           return Text(product['product_name']);
+    //         },
+    //       );
+    //     } else {
+    //       return const Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     }
+    //   },
+    // );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return const Center(child: Text('Sugestões'));
   }
 }

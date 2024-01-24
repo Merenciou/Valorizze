@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:valorizze/search_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UpdatePrices extends StatefulWidget {
@@ -40,9 +39,9 @@ class _UpdatePrices extends State<UpdatePrices> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: SearchPage(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: TextFormField(),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:valorizze/bottom_navbar.dart';
-import 'package:valorizze/search_page.dart';
-
 import 'package:google_fonts/google_fonts.dart';
+import 'package:valorizze/homepage.dart';
 
 class Offers extends StatefulWidget {
   const Offers({Key? key}) : super(key: key);
@@ -12,394 +10,229 @@ class Offers extends StatefulWidget {
 }
 
 class _Offers extends State<Offers> {
+  bool isPressedFilter = false;
+  bool isPressedCheckbox = false;
+  List<bool> checkboxState =
+      List.generate(dayOffersMarket.length, (index) => false);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomNavbarCustom(),
-      body: Container(
-        color: const Color(0xffF7EFE5),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: <Widget>[
-                  SizedBox(
-                    height: 800,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const Form(
-                          child: SearchPage(),
-                        ),
-                        Flexible(
-                          child: SizedBox(
-                            height: 100,
-                            child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4, vertical: 10),
-                                    child: Center(
-                                      child: InkWell(
-                                        onTap: () {},
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Material(
-                                              elevation: 1,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(10)),
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors.black12,
-                                                          offset: Offset(1, 1),
-                                                          blurRadius: 1)
-                                                    ],
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10))),
-                                                width: 60,
-                                                height: 60,
-                                                child: Image.asset(
-                                                    './lib/assets/images/meat.jpg'),
-                                              ),
-                                            ),
-                                            Text('FRIOS',
-                                                style: GoogleFonts.montserrat(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 12))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder:
-                                    (BuildContext context, int index) =>
-                                        const Divider(),
-                                itemCount: 10),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 270,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('OFERTAS DO DIA',
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600)),
-                              Flexible(
-                                child: SizedBox(
-                                  height: 280,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    itemCount: 10,
-                                    separatorBuilder:
-                                        (BuildContext context, int index) =>
-                                            const Divider(),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10, bottom: 10, right: 10),
-                                            child: InkWell(
-                                              onTap: () {
-                                                Navigator.pushNamed(
-                                                    context, '/item_preview');
-                                              },
-                                              child: Material(
-                                                elevation: 1,
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10)),
-                                                child: Container(
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10)),
-                                                          color: Colors.white),
-                                                  child: Column(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 6,
-                                                                horizontal: 6),
-                                                        child: Container(
-                                                          width: 110,
-                                                          height: 150,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal: 6,
-                                                                  vertical: 6),
-                                                          decoration: const BoxDecoration(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10)),
-                                                              color: Color(
-                                                                  0xffF7EFE5)),
-                                                          child: Image.asset(
-                                                              './lib/assets/images/meat2.png'),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 130,
-                                                        decoration: const BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            10))),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 0),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      10),
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                        4),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Padding(
-                                                                    padding: const EdgeInsets
-                                                                        .only(
-                                                                        bottom:
-                                                                            6),
-                                                                    child: Text(
-                                                                      'COXÃO MOLE KG',
-                                                                      style: GoogleFonts.montserrat(
-                                                                          fontWeight: FontWeight
-                                                                              .w600,
-                                                                          fontSize:
-                                                                              12),
-                                                                    )),
-                                                                const Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          bottom:
-                                                                              4),
-                                                                  child: Text(
-                                                                    'R\$39,90',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      color: Color(
-                                                                          0xff9ADE7B),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
+        backgroundColor: const Color(0xffF7EFE5),
+        appBar: isPressedFilter
+            ? null
+            : AppBar(
+                automaticallyImplyLeading: false,
+                backgroundColor: const Color(0xff9ADE7B),
+                leading: const BackButton(color: Colors.white),
+                title: Text(
+                  'Ofertas do Dia',
+                  style:
+                      GoogleFonts.montserrat(fontSize: 18, color: Colors.white),
+                ),
+              ),
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          isPressedFilter = true;
+                        });
+                      },
+                      child: Container(
+                        width: 150,
+                        height: 30,
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Filtrar',
+                              style: GoogleFonts.montserrat(color: Colors.grey),
+                            ),
+                            PopupMenuButton(
+                              color: Colors.red,
+                              icon: const Icon(
+                                Icons.filter_alt,
+                                color: Colors.grey,
+                                size: 15,
+                              ),
+                              onSelected: (String result) {
+                                // print('$result selecionado');
+                              },
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<String>>[
+                                PopupMenuItem<String>(
+                                  value: 'Item 1',
+                                  child: Text(
+                                    dayOffersMarket.toString(),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 280,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('OFERTAS DA SEMANA',
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600)),
-                              Flexible(
-                                child: SizedBox(
-                                  height: 280,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    itemCount: 10,
-                                    separatorBuilder:
-                                        (BuildContext context, int index) =>
-                                            const Divider(),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10, bottom: 10, right: 10),
-                                            child: InkWell(
-                                              onTap: () {},
-                                              child: Material(
-                                                elevation: 1,
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10)),
-                                                child: Container(
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10)),
-                                                          color: Colors.white),
-                                                  child: Column(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 6,
-                                                                horizontal: 6),
-                                                        child: Container(
-                                                          width: 110,
-                                                          height: 150,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal: 6,
-                                                                  vertical: 6),
-                                                          decoration: const BoxDecoration(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10)),
-                                                              color: Color(
-                                                                  0xffF7EFE5)),
-                                                          child: Image.asset(
-                                                              './lib/assets/images/fish.png'),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 130,
-                                                        decoration: const BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            15))),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 0),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      10),
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                        4),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Padding(
-                                                                    padding: const EdgeInsets
-                                                                        .only(
-                                                                        bottom:
-                                                                            6),
-                                                                    child: Text(
-                                                                      'PEIXE TAMBAQUI KG',
-                                                                      style: GoogleFonts.montserrat(
-                                                                          fontWeight: FontWeight
-                                                                              .w600,
-                                                                          fontSize:
-                                                                              12),
-                                                                    )),
-                                                                const Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          bottom:
-                                                                              4),
-                                                                  child: Text(
-                                                                    'R\$29,90',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      color: Color(
-                                                                          0xff9ADE7B),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
+                                PopupMenuItem<String>(
+                                  value: 'Item 2',
+                                  child: Text(
+                                    dayOffersMarket.toString(),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
+                                PopupMenuItem<String>(
+                                  value: 'Item 3',
+                                  child: Text(
+                                    dayOffersMarket.toString(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ]),
+                  ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/item_preview');
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Image.asset(
+                                './lib/assets/images/${dayOffersImg[index]}.png',
+                                width: 60,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    dayOffersItems[index],
+                                    style: GoogleFonts.montserrat(),
+                                  ),
+                                  Text(
+                                    'R\$${dayOffersPrice[index]}',
+                                    style: GoogleFonts.montserrat(
+                                        color: const Color(0xff9ADE7B),
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              ),
+                              const Icon(
+                                Icons.arrow_right,
+                                color: Colors.grey,
+                                size: 40,
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
+                      itemCount: dayOffersItems.length)
+                ],
+              ),
+            ),
+            if (isPressedFilter == true) screenFilter(context)
+          ],
+        ));
+  }
+
+  Widget screenFilter(context) {
+    return Container(
+      width: double.infinity,
+      height: 600,
+      color: const Color(0xffF7EFE5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Align(
+            child: Text(
+              'Filtros',
+              style: GoogleFonts.montserrat(
+                  fontSize: 18, fontWeight: FontWeight.w500),
+            ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, top: 20, bottom: 10),
+            child: Text(
+              'Filtre por Mercados:',
+              style: GoogleFonts.montserrat(color: Colors.grey),
+            ),
+          ),
+          ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return CheckboxListTile(
+                    value: checkboxState[index],
+                    title: Text(dayOffersMarket[index]),
+                    secondary: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: const BoxDecoration(
+                          color: Colors.yellow,
+                          borderRadius: BorderRadius.all(Radius.circular(50))),
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
+                        child: Image.asset(
+                            './lib/assets/images/${dayOffersMarketImg[index]}.png'),
+                      ),
+                    ),
+                    tristate: false,
+                    onChanged: (value) {
+                      setState(() {
+                        checkboxState[index] = !checkboxState[index];
+                      });
+                    });
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+              itemCount: dayOffersItems.length),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlue,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6)))),
+                child: Text(
+                  'Filtrar',
+                  style: GoogleFonts.montserrat(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isPressedFilter = false;
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(6)))),
+              child: Text(
+                'Cancelar',
+                style: GoogleFonts.montserrat(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

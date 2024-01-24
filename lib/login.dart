@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:valorizze/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 
-final TextEditingController emailLoginController = TextEditingController();
-final TextEditingController passwordLoginController = TextEditingController();
+final TextEditingController _emailController = TextEditingController();
+final TextEditingController _passwordController = TextEditingController();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _LoginPage extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   void _snackBarSucess() {
-    const snackBarSucess = SnackBar(
+    var snackBarSucess = const SnackBar(
         behavior: SnackBarBehavior.floating,
         duration: Duration(milliseconds: 1700),
         backgroundColor: Colors.green,
@@ -42,7 +43,7 @@ class _LoginPage extends State<LoginPage> {
   }
 
   void _snackBarEmailWrong() {
-    const snackBarSucess = SnackBar(
+    var snackBarSucess = const SnackBar(
         behavior: SnackBarBehavior.floating,
         duration: Duration(milliseconds: 3000),
         backgroundColor: Colors.red,
@@ -57,7 +58,7 @@ class _LoginPage extends State<LoginPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4),
               child: Text(
-                'Usuário não encontrado',
+                'Digite corretamente o seu email',
               ),
             ),
           ],
@@ -66,7 +67,7 @@ class _LoginPage extends State<LoginPage> {
   }
 
   void _snackBarPasswordWrong() {
-    const snackBarSucess = SnackBar(
+    var snackBarSucess = const SnackBar(
         behavior: SnackBarBehavior.floating,
         duration: Duration(milliseconds: 3000),
         backgroundColor: Colors.red,
@@ -81,7 +82,7 @@ class _LoginPage extends State<LoginPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4),
               child: Text(
-                'Senha incorreta!',
+                'Email ou senha incorreto!',
               ),
             ),
           ],
@@ -89,44 +90,22 @@ class _LoginPage extends State<LoginPage> {
     ScaffoldMessenger.of(context).showSnackBar(snackBarSucess);
   }
 
-  void loadCredencials(context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final emailValue = prefs.getString('email') ?? '';
-    final userName = prefs.getString('name') ?? '';
-    final passwordValue = prefs.getString('password') ?? '';
+  void _signIn(context) async {
+    final FirebaseAuthService auth = FirebaseAuthService();
+    String email = _emailController.text;
+    String password = _passwordController.text;
 
-    if (emailLoginController.text != emailValue &&
-        emailLoginController.text != userName) {
-      _snackBarEmailWrong();
-    }
+    User? user = await auth.signInWithEmailAndPassword(email, password);
 
-    if (passwordLoginController.text != passwordValue) {
-      _snackBarPasswordWrong();
-    }
-
-    if (emailLoginController.text == emailValue &&
-        passwordLoginController.text == passwordValue) {
-      setState(() {
-        finalAuth = true;
-      });
-    }
-
-    if (emailLoginController.text == userName &&
-        passwordLoginController.text == passwordValue) {
-      setState(() {
-        finalAuth = true;
-      });
-    }
-
-    if (finalAuth == true) {
+    if (user != null) {
       _snackBarSucess();
-      Future<void> sucessDelayed() async {
-        await Future.delayed(const Duration(milliseconds: 2000), () {
-          Navigator.of(context).pushNamed('/0');
-        });
-      }
-
-      sucessDelayed();
+      Future.delayed(const Duration(milliseconds: 1800), () {
+        Navigator.pushNamed(context, '/0');
+      });
+    } else if (authError == 'invalid-email') {
+      _snackBarEmailWrong();
+    } else if (authError == 'invalid-credential') {
+      _snackBarPasswordWrong();
     }
   }
 
@@ -164,15 +143,15 @@ class _LoginPage extends State<LoginPage> {
                                     child: Text(
                                       'Valorizze',
                                       style: GoogleFonts.alice(
-                                          fontSize: 40,
-                                          color: const Color(0xffF5F5DC)),
+                                          fontSize: 40, color: Colors.white),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 30),
                                     child: TextFormField(
-                                      controller: emailLoginController,
+                                      textInputAction: TextInputAction.next,
+                                      controller: _emailController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Preencha este campo!';
@@ -180,10 +159,10 @@ class _LoginPage extends State<LoginPage> {
                                         return null;
                                       },
                                       decoration: InputDecoration(
-                                        hintText: 'Email',
+                                        hintText: 'Email ou Nome de Usuário',
                                         hintStyle: GoogleFonts.montserrat(
                                             color: Colors.grey),
-                                        labelText: 'Email',
+                                        labelText: 'Email ou Nome de Usuário',
                                         labelStyle: GoogleFonts.montserrat(
                                             color: Colors.grey),
                                         filled: true,
@@ -202,8 +181,9 @@ class _LoginPage extends State<LoginPage> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 30, vertical: 5),
                                     child: TextFormField(
+                                      textInputAction: TextInputAction.done,
                                       obscureText: showPassword,
-                                      controller: passwordLoginController,
+                                      controller: _passwordController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Preencha este campo!';
@@ -246,7 +226,8 @@ class _LoginPage extends State<LoginPage> {
                                         const EdgeInsets.symmetric(vertical: 5),
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        loadCredencials(context);
+                                        _signIn(context);
+                                        // loadCredencials(context);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.blue,
